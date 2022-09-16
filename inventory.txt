@@ -1,2 +1,2 @@
 [all]
-34.228.158.208
+ec2-34-228-158-208.compute-1.amazonaws.com
