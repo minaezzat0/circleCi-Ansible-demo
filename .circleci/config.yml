@@ -45,6 +45,7 @@ jobs:
             apk add --no-cache openssh-client
             # install the dependencies needed for your playbook
             apk add --update ansible
+            sudo apt-get install curl
             curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
             python3 get-pip.py --user
             python3 -m pip install --user ansible
