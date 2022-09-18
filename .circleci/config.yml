@@ -26,40 +26,30 @@ jobs:
   # Exercise: Creating a Simple Workflow
   # Exercise: Environment Variables
   # Exercise: Reusable Job Code 
-  
-
- 
+    smoke_test:
+      docker:
+        - image: alpine:latest
+      steps:
+        
+        - run:
+            name: smoke test
+            command: |
+              URL="https://blog.udacity.com/"
+              # Test if website exists
+              if curl -s --head ${URL} 
+              then
+                return 0
+              else
+                return 1
+              fi
 
 
   # Exercise: Config and Deployment
-  configure_infrastructure: 
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints: ["9d:59:4a:d6:fb:ac:62:45:b3:d0:54:3c:1a:80:12:19"] # You can get this ID in the section where you registered the SSH Key
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --no-cache openssh-client
-            # install the dependencies needed for your playbook
-            apk add --update ansible
-            apk --no-cache add curl
-            apk update && apk add --no-cache musl-dev libffi-dev openssl-dev make gcc python py2-pip python-dev
-            pip install cffi
-            pip install --upgrade pip
-            pip install ansible
-            
-            
-      - run:
-          name: Configure server
-          command: |
-            ansible-playbook -i inventory.txt main.yml
+  
 workflows:
   # Name the workflow "welcome"
   my_workflow:
     # Run the welcome/run job in its own container
     jobs:
       # - welcome/run
-      - configure_infrastructure
+      - smoke_test
